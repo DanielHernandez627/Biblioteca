@@ -34,5 +34,18 @@ namespace BibliotecaMg.Services
             var update = Builders<Libro>.Update.Set(libro => libro.Estado, nuevoEstado);
             await _librosCollection.UpdateOneAsync(libro => libro._ObjectId == id, update);
         }
+        public async Task<int> GetIdLibroAsync()
+        {
+            int nuevoId = 0;
+
+            var libro = await _librosCollection
+                .Find(Builders<Libro>.Filter.Empty)
+                .SortByDescending(libro => libro.Id)
+                .FirstOrDefaultAsync();
+
+            nuevoId = (libro != null) ? libro.Id + 1 : 0;
+
+            return nuevoId;
+        }
     }
 }

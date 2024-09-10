@@ -6,7 +6,7 @@ namespace BibliotecaMg.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LibrosController:ControllerBase
+    public class LibrosController : ControllerBase
     {
 
         private readonly LibroService _libroService;
@@ -85,6 +85,19 @@ namespace BibliotecaMg.Controllers
             await _libroService.UpdateEstadoAsync(id, nuevoEstado);
 
             return NoContent();
+        }
+
+        [HttpGet("nuevoId")]
+        public async Task<ActionResult<int>> GetNuevoId()
+        {
+            int libroid = await _libroService.GetIdLibroAsync();
+
+            if (libroid == 0)
+            {
+                return BadRequest(libroid);
+            }
+
+            return Ok(libroid);
         }
     }
 }
